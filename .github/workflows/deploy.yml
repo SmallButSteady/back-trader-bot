@@ -45,11 +45,11 @@ jobs:
             git pull origin main
             
             # 3. 새로운 Docker 이미지 다운로드 (Docker Hub에서)
-            docker -compose pull
+            docker compose pull
             
             # 4. 웹 서비스 재시작
             # 기존 컨테이너를 강제로 재생성하여 새 이미지를 사용하고 백그라운드로 실행합니다.
-            docker -compose up -d --force-recreate web
+            docker compose up -d --force-recreate web
             
             # 5. 실행되지 않는(정지된) 컨테이너 및 사용되지 않는 이미지 정리
             docker container prune -f
