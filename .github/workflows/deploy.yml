@@ -37,6 +37,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            # 환경 변수 설정 
+            export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+
             # 1. 프로젝트 파일이 위치한 디렉토리로 이동
             PROJECT_DIR="/home/${{ secrets.SSH_USERNAME }}/back-trader-bot"
             cd $PROJECT_DIR
