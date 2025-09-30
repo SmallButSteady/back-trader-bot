@@ -9,4 +9,4 @@ def read_root():
 
 @app.get("/coin/price/{coin_id}")
 def get_coin_price(coin_id: str):
-    return {"coin_id": coin_id, "price": 100.0}
+    return {"coin_id": coin_id, "가격": 100.0}
