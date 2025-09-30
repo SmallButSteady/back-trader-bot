@@ -7,10 +7,7 @@ venv/
 # 파이썬 관련 파일
 __pycache__/
 *.pyc
-.vscode/ # VS Code 설정 파일은 프로젝트에 따라 포함 여부 결정
-
-# 데이터베이스 파일 (SQLite 사용 시)
-db.sqlite3
+.vscode/
 
 # 로그 파일
 *.log

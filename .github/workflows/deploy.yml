@@ -1,0 +1,56 @@
+# .github/workflows/deploy.yml
+name: Build and Deploy Trader Bot API
+
+on:
+  push:
+    branches:
+      - main # main 브랜치에 푸시될 때 실행
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # docker-compose.yml에 정의된 이미지 이름과 일치해야 합니다.
+          tags: ${{ secrets.DOCKER_USERNAME }}/back-trader-bot:latest
+
+      - name: Deploy to Server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # 1. 프로젝트 파일이 위치한 디렉토리로 이동
+            PROJECT_DIR="/home/${{ secrets.SSH_USERNAME }}/back-trader-bot"
+            cd $PROJECT_DIR
+            
+            # 2. 서버에 있는 Git 저장소 업데이트
+            git pull origin main
+            
+            # 3. 새로운 Docker 이미지 다운로드 (Docker Hub에서)
+            docker -compose pull
+            
+            # 4. 웹 서비스 재시작
+            # 기존 컨테이너를 강제로 재생성하여 새 이미지를 사용하고 백그라운드로 실행합니다.
+            docker -compose up -d --force-recreate web
+            
+            # 5. 실행되지 않는(정지된) 컨테이너 및 사용되지 않는 이미지 정리
+            docker container prune -f
+            docker image prune -f
