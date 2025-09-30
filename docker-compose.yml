@@ -7,3 +7,4 @@ services:
     image: ${DOCKER_USERNAME}/back-trader-bot:latest 
     ports:
       - "8000:8000"
+    container_name: back_smallbutsteady
