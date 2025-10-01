@@ -39,7 +39,9 @@ jobs:
           script: |
             # 환경 변수 설정 
             export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-
+            export DATABASE_URL=${{ secrets.DB_SECRET_URL }} 
+            export JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+            
             # 1. 프로젝트 파일이 위치한 디렉토리로 이동
             PROJECT_DIR="/SmallButSteady/app/back-trader-bot"
             cd $PROJECT_DIR
