@@ -41,7 +41,7 @@ jobs:
             export DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
 
             # 1. 프로젝트 파일이 위치한 디렉토리로 이동
-            PROJECT_DIR="/home/${{ secrets.SSH_USERNAME }}/back-trader-bot"
+            PROJECT_DIR="/SmallButSteady/app/back-trader-bot"
             cd $PROJECT_DIR
             
             # 2. 서버에 있는 Git 저장소 업데이트
